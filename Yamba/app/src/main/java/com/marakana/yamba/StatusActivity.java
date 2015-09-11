@@ -1,16 +1,36 @@
 package com.marakana.yamba;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+import winterwell.jtwitter.Twitter;
 
-public class StatusActivity extends AppCompatActivity {
+public class StatusActivity extends AppCompatActivity implements OnClickListener {
+
+    private static final String TAG = "StatusActivity";
+    //TextView title;
+    EditText editText;
+    Button  updateButton;
+    Twitter twitter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_status);
+
+        editText = (EditText)findViewById(R.id.editText);
+        updateButton = (Button)findViewById(R.id.buttonUpdate);
+        updateButton.setOnClickListener(this);
+
+        twitter = new Twitter("student","password");
+        twitter.setAPIRootUrl("http://yamba.marakana.com/api");
     }
 
     @Override
@@ -33,5 +53,11 @@ public class StatusActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onClick(View view) {
+        Log.d(TAG, "onClick");
+        twitter.setStatus(editText.getText().toString());
     }
 }
